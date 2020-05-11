@@ -10,6 +10,8 @@ import org.primefaces.model.file.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.validation.ConstraintViolationException;
+import javax.validation.ValidationException;
 import java.util.List;
 
 @Repository
@@ -27,16 +29,15 @@ public class StudentDAOImpl implements StudentDAO {
                 Files files = filesDAO.getFileById(id);
                 s.setFiles(files);
             }
-            if( ValidationUtil.validate(s)) {
+                ValidationUtil.validate(s);
                 session =  HibernateUtil.getSessionFactory().getCurrentSession();
                 tx = session.beginTransaction();
                 session.persist(s);
                 tx.commit();
-            }
-
     }
         catch (Exception e) {
         if (tx!=null) tx.rollback();
+        throw new ValidationException(e.getMessage());
     }
         finally {
             if(session != null && session.isConnected()) session.close();
@@ -57,12 +58,11 @@ public class StudentDAOImpl implements StudentDAO {
         Session session = null;
         Transaction tx = null;
         try {
-            if( ValidationUtil.validate(s)) {
+                ValidationUtil.validate(s);
                 session =  HibernateUtil.getSessionFactory().getCurrentSession();
                 tx = session.beginTransaction();
                 session.persist(s);
                 tx.commit();
-            }
         }
         catch (Exception e) {
             if (tx!=null) tx.rollback();

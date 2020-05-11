@@ -30,12 +30,11 @@ public class FilesDAOImpl implements FilesDAO {
             Files files = new Files();
             files.setName(f.getFileName());
             files.setData(f.getContent());
-           if( ValidationUtil.validate(files)) {
+            ValidationUtil.validate(files);
                session = HibernateUtil.getSessionFactory().getCurrentSession();
                tx = session.beginTransaction();
                id = (Integer) session.save(files);
                tx.commit();
-           }
         }
         catch (Exception e) {
             if (tx!=null) tx.rollback();
