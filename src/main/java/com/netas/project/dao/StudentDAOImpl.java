@@ -19,7 +19,7 @@ public class StudentDAOImpl implements StudentDAO {
     FilesDAO filesDAO;
     @Override
     public void addStudent(Student s, UploadedFile file) {
-        Session session =  HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = null;
         Transaction tx = null;
         try {
             if(file != null) {
@@ -28,6 +28,7 @@ public class StudentDAOImpl implements StudentDAO {
                 s.setFiles(files);
             }
             if( ValidationUtil.validate(s)) {
+                session =  HibernateUtil.getSessionFactory().getCurrentSession();
                 tx = session.beginTransaction();
                 session.persist(s);
                 tx.commit();
@@ -38,7 +39,7 @@ public class StudentDAOImpl implements StudentDAO {
         if (tx!=null) tx.rollback();
     }
         finally {
-            if(session.isConnected()) session.close();
+            if(session != null && session.isConnected()) session.close();
     }
 }
 
@@ -53,10 +54,11 @@ public class StudentDAOImpl implements StudentDAO {
 
     @Override
     public void updateStudent(Student s) {
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = null;
         Transaction tx = null;
         try {
             if( ValidationUtil.validate(s)) {
+                session =  HibernateUtil.getSessionFactory().getCurrentSession();
                 tx = session.beginTransaction();
                 session.persist(s);
                 tx.commit();
@@ -66,7 +68,7 @@ public class StudentDAOImpl implements StudentDAO {
             if (tx!=null) tx.rollback();
         }
         finally {
-            if(session.isConnected()) session.close();
+            if(session != null && session.isConnected()) session.close();
         }
     }
 

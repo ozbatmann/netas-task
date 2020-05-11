@@ -23,7 +23,7 @@ public class FilesDAOImpl implements FilesDAO {
     @Override
     public int addFile(UploadedFile f) {
 
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = null;
         Transaction tx = null;
         int id = 0;
         try {
@@ -31,6 +31,7 @@ public class FilesDAOImpl implements FilesDAO {
             files.setName(f.getFileName());
             files.setData(f.getContent());
            if( ValidationUtil.validate(files)) {
+               session = HibernateUtil.getSessionFactory().getCurrentSession();
                tx = session.beginTransaction();
                id = (Integer) session.save(files);
                tx.commit();
@@ -40,7 +41,7 @@ public class FilesDAOImpl implements FilesDAO {
             if (tx!=null) tx.rollback();
         }
         finally {
-            if(session.isConnected()) session.close();
+            if(session != null && session.isConnected()) session.close();
 
         }
         return id;
