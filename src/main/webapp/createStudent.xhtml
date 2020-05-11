@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head></h:head>
+    <h:body>
+        <p:panel id="panel" style="width:20%; margin-left: 40%"  >
+        <h:form id="createStudentViewForm" class="form-horizontal" >
+
+            <div class="form-group">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
+                    <h2>Create Student Record</h2>
+                </div>
+            </div>
+            <hr/>
+            <div class="form-group">
+                <p:outputLabel for="name" styleClass="control-label col-sm-4">Name:</p:outputLabel>
+                <div class="col-sm-4">
+                    <p:inputText id="name" value="#{studentView.name}" styleClass="form-control" validatorMessage="User name is required" required="true">
+                        <f:validateRequired />
+                    </p:inputText>
+                </div>
+            </div>
+            <div class="form-group">
+                <p:outputLabel for="surname" styleClass="control-label col-sm-4">Surname:</p:outputLabel>
+                <div class="col-sm-4">
+                    <p:inputText id="surname" value="#{studentView.surname}" styleClass="form-control" validatorMessage="Surname is required" required="true">
+                        <f:validateRequired/>
+                    </p:inputText>
+                </div>
+            </div>
+            <div class="form-group">
+                <p:outputLabel for="phoneNumber" styleClass="control-label col-sm-4">Phone Number:</p:outputLabel>
+                <div class="col-sm-4">
+                    <p:inputMask id="phoneNumber" required="true" value="#{studentView.phoneNumber}" mask="(999) 999-9999"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <p:outputLabel for="city" styleClass="control-label col-sm-4">City:</p:outputLabel>
+                <div class="col-sm-4">
+                <p:selectOneMenu required="true" id="city" value="#{studentView.city}" style="width:75%">
+                    <f:selectItem itemLabel="Select City"/>
+                    <f:selectItems value="#{studentView.cityMap}"/>
+                    <p:ajax event="itemSelect" listener="#{studentView.onCityChange}" update="district"/>
+                </p:selectOneMenu>
+                 </div>
+                </div>
+            <div class="form-group">
+                <p:outputLabel for="district" styleClass="control-label col-sm-4">District:</p:outputLabel>
+                <div class="col-sm-4">
+                <p:selectOneMenu required="true" id="district" value="#{studentView.district}" style="width:75%">
+                    <f:selectItem itemLabel="Select District" />
+                    <f:selectItems value="#{studentView.districtMap}" />
+                </p:selectOneMenu>
+                </div>
+                </div>
+
+            <div class="form-group">
+                <p:outputLabel for="description" value="Description: " />
+                <div class="col-sm-4">
+                    <p:inputTextarea rows="5" required="true" cols="30" id="description" value="#{studentView.description}" styleClass="form-control" validatorMessage="Description is required">
+                        <f:validateRequired/>
+                    </p:inputTextarea>
+                </div>
+                </div>
+            <br></br>
+
+            <p:commandButton value="Submit" ajax="false" action="#{studentView.addStudent}"/>
+            <p:commandButton value="Reset"
+                             action="#{studentView.reset}" immediate="true" />
+
+            <br></br>
+        </h:form>
+            <br></br>
+            <h:form enctype="multipart/form-data">
+                <p:fileUpload style="margin-bottom: 10px;" listener="#{studentView.handleFileUpload}" mode="advanced" auto="true" />
+
+                <br></br>
+
+            </h:form>
+
+            <p:commandButton
+                    action ="studentsList.xhtml?faces-redirect=true" value="Show Records" immediate="true"/>
+
+        </p:panel>
+
+
+
+    </h:body>
+</html>

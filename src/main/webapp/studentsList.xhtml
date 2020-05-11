@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head></h:head>
+<h:body>
+    <h:form id="form">
+        <p:dataTable id="studentList" var="student" value="#{studentView.studentList}" editable="true" style="margin-bottom:20px; width:60%; margin-left: 22%">
+            <f:facet name="header">
+                Student Records
+            </f:facet>
+
+            <p:ajax event="rowEdit" listener="#{studentView.onRowEdit}"/>
+
+            <p:column headerText="Name">
+                <p:cellEditor>
+                    <f:facet name="output"><h:outputText value="#{student.name}" /></f:facet>
+                    <f:facet name="input"><p:inputText value="#{student.name}" style="width:100%" label="Name"/></f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column headerText="Surname">
+                <p:cellEditor>
+                    <f:facet name="output"><h:outputText value="#{student.surname}" /></f:facet>
+                    <f:facet name="input"><p:inputText value="#{student.surname}" style="width:100%" label="Surname"/></f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column headerText="Phone Number">
+                <p:cellEditor>
+                    <f:facet name="output"><h:outputText value="#{student.phoneNumber}" /></f:facet>
+                    <f:facet name="input"><p:inputText value="#{student.phoneNumber}" style="width:100%" label="Phone Number"/></f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column headerText="City">
+                <p:cellEditor>
+                    <f:facet name="output"><h:outputText value="#{student.city}" /></f:facet>
+                    <f:facet name="input"><p:selectOneMenu value="#{student.city}" style="width:83%">
+                        <f:selectItems value="#{studentView.cityMap}" />
+                        <p:ajax event="itemSelect" listener="#{studentView.onCityC(student.city)}" update="district"/>
+                    </p:selectOneMenu>
+                    </f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column headerText="District">
+                <p:cellEditor>
+                    <f:facet name="output"><h:outputText value="#{student.district}" /></f:facet>
+                    <f:facet name="input"><p:selectOneMenu id="district" value="#{student.district}" style="width:83%">
+                        <f:selectItems value="#{studentView.districtMap}" />
+                    </p:selectOneMenu></f:facet>
+                </p:cellEditor>
+            </p:column>
+
+            <p:column headerText="Description">
+                <p:cellEditor>
+                    <f:facet name="output"><h:outputText value="#{student.description}" /></f:facet>
+                    <f:facet name="input"><p:inputText value="#{student.description}" style="width:100%" label="Description"/></f:facet>
+                </p:cellEditor>
+            </p:column>
+            <p:column headerText="Update" >
+                <p:rowEditor style="margin: 0 auto;"/>
+            </p:column>
+
+            <p:column headerText="Delete">
+                <p:commandButton action="#{studentView.delete(student.id)}"
+                                 value="Delete"/>
+            </p:column>
+
+            <p:column headerText="Add-Edit File">
+                <p:commandButton  onclick="PF('dlg1').show();"  action="#{studentView.setSelectedStudent(student)}"
+                                 value="Add-Edit" ajax="true" update="fileName"/>
+            </p:column>
+
+        </p:dataTable>
+        <p:commandButton style="margin-left:45%" action="#{studentView.reset}"
+                         value="Create New User"/>
+
+    </h:form>
+
+    <p:dialog header="Add-Edit File Dialog" widgetVar="dlg1" minHeight="40" >
+        <div class="form-group">
+            <p:outputLabel for="fileName" styleClass="control-label col-sm-4">Uploaded file:</p:outputLabel>
+            <div class="col-sm-4">
+                <p:inputText id="fileName" value="#{studentView.selectedStudent.files != null ? studentView.selectedStudent.files.name : null}" styleClass="form-control" disabled="true">
+                </p:inputText>
+            </div>
+        </div>
+        <h:form enctype="multipart/form-data">
+
+            <p:fileUpload listener="#{studentView.handleFileUpload}" mode="advanced" auto="true" />
+            <br></br>
+            <br></br>
+            <p:commandButton style="margin-left:45%" action="#{studentView.updateFile}"
+                             value="Save" onclick="PF('dlg1').close()"/>
+
+
+
+        </h:form>
+
+    </p:dialog>
+</h:body>
+</html>
