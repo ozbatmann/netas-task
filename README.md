@@ -8,4 +8,4 @@ When the application starts;
 http://localhost:8080/createStudent.xhtml : url is used to create new student.
 http://localhost:8080/studentsList.xhtml: url is used to show created students.
 
-In the datatable using pen icon you can edit the data. Additionaly if you click the add-edit file button you can edit the existing file or upload new file for the selected student record.
+In the datatable by using pen icon you can edit the row. Additionaly, if you click the add-edit button you can add a new file or edit existing file for the selected student.
