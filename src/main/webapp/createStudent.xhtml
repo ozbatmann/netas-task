@@ -46,7 +46,7 @@
                 <p:selectOneMenu required="true" id="city" value="#{studentView.city}" style="width:75%">
                     <f:selectItem itemLabel="Select City"/>
                     <f:selectItems value="#{studentView.cityMap}"/>
-                    <p:ajax event="itemSelect" listener="#{studentView.onCityChange}" update="district"/>
+                    <p:ajax event="itemSelect" listener="#{studentView.onCityChange(studentView.city)}" update="district"/>
                 </p:selectOneMenu>
                  </div>
                 </div>

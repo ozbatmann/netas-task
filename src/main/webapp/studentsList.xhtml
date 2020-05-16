@@ -42,7 +42,7 @@
                     <f:facet name="output"><h:outputText value="#{student.city}" /></f:facet>
                     <f:facet name="input"><p:selectOneMenu value="#{student.city}" style="width:83%">
                         <f:selectItems value="#{studentView.cityMap}" />
-                        <p:ajax event="itemSelect" listener="#{studentView.onCityC(student.city)}" update="district"/>
+                        <p:ajax event="itemSelect" listener="#{studentView.onCityChange(student.city)}" update="district"/>
                     </p:selectOneMenu>
                     </f:facet>
                 </p:cellEditor>

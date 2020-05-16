@@ -61,7 +61,7 @@ public class StudentDAOImpl implements StudentDAO {
                 ValidationUtil.validate(s);
                 session =  HibernateUtil.getSessionFactory().getCurrentSession();
                 tx = session.beginTransaction();
-                session.persist(s);
+                session.update(s);
                 tx.commit();
         }
         catch (Exception e) {
