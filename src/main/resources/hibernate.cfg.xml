@@ -11,7 +11,7 @@
         <property name="hibernate.connection.username">SA</property>
         <property name="hibernate.connection.password"/>
         <property name="hibernate.connection.url">jdbc:hsqldb:hsql://localhost/netasproject</property>
-        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.hbm2ddl.auto">create</property>
         <property name="hibernate.current_session_context_class">org.hibernate.context.internal.ThreadLocalSessionContext</property>
         <mapping class="com.netas.project.model.Student"/>
         <mapping class="com.netas.project.model.Files"/>
