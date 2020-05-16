@@ -168,19 +168,12 @@ public class StudentView implements Serializable {
     }
 
     // City change event
-    public void onCityChange(){
+    public void onCityChange(String city){
         if(city !=null && !city.equals(""))
             districtMap = cityDistrictMap.get(city);
         else
             districtMap = new HashMap<String, String>();
     }
-    public void onCityC(String c){
-        if(c !=null && !c.equals(""))
-            districtMap = cityDistrictMap.get(c);
-        else
-            districtMap = new HashMap<String, String>();
-    }
-
     // Add - Edit - Delete
     public void addStudent(){
         studentService.addStudent(name,surname,phoneNumber,city,district,description,file);
